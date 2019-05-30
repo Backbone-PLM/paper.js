@@ -9,7 +9,7 @@
  *
  * All rights reserved.
  *
- * Date: Mon Dec 3 14:19:11 2018 +0100
+ * Date: Thu May 30 11:49:01 2019 -0600
  *
  ***
  *
@@ -14517,7 +14517,16 @@ new function() {
 	function exportText(item) {
 		var node = SvgElement.create('text', getTransform(item._matrix, true),
 				formatter);
-		node.textContent = item._content;
+		for(var i=0; i<item._lines.length; i++) {
+			var tspan = document.createElementNS("http://www.w3.org/2000/svg", "tspan");
+			tspan.textContent = item._lines[i];
+			var dy = item.leading;
+			if(i==0) dy = 0;
+			tspan.setAttributeNS(null, "x", node.getAttribute('x'));
+			tspan.setAttributeNS(null, "dy", dy);
+			node.appendChild(tspan);
+		}
+
 		return node;
 	}
 
